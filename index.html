@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBijli ⚡ AI Electricity Bill Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="energy-line line1"></div>
+        <div class="energy-line line2"></div>
+        <div class="energy-line line3"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-bolt"></i>
+            <span>SmartBijli</span>
+        </div>
+        <nav>
+            <a href="#analyzer" class="nav-link active">Analyzer</a>
+            <a href="#tips" class="nav-link">AI Tips</a>
+            <a href="#about" class="nav-link">About</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🤖 Powered by Gemini AI</div>
+            <h1>Take Control of Your <span class="gradient-text">Electricity Bill</span></h1>
+            <p>Add your home appliances, and our AI will analyze your usage patterns, estimate your monthly bill, and give you personalized tips to save money.</p>
+            <a href="#analyzer" class="cta-btn">
+                <i class="fas fa-chart-line"></i> Start Analyzing
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-card">
+                <i class="fas fa-piggy-bank"></i>
+                <h3>Save up to</h3>
+                <p class="stat-number">30%</p>
+                <span>on your bill</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-leaf"></i>
+                <h3>Reduce</h3>
+                <p class="stat-number">CO₂</p>
+                <span>carbon footprint</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-brain"></i>
+                <h3>AI-Powered</h3>
+                <p class="stat-number">Tips</p>
+                <span>personalized</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analyzer Section -->
+    <section class="analyzer-section" id="analyzer">
+        <h2 class="section-title"><i class="fas fa-calculator"></i> Electricity Usage Analyzer</h2>
+        
+        <!-- API Key Input -->
+        <div class="api-key-section">
+            <div class="api-key-card">
+                <div class="api-key-header">
+                    <i class="fas fa-key"></i>
+                    <h3>Gemini API Key</h3>
+                </div>
+                <p>Enter your free API key from <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a></p>
+                <div class="api-input-group">
+                    <input type="password" id="apiKey" placeholder="Paste your Gemini API key here..." />
+                    <button id="toggleApiKey" class="toggle-btn" title="Show/Hide">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div id="apiStatus" class="api-status"></div>
+            </div>
+        </div>
+
+        <!-- Electricity Rate -->
+        <div class="rate-card">
+            <div class="rate-header">
+                <i class="fas fa-money-bill-wave"></i>
+                <h3>Your Electricity Rate</h3>
+            </div>
+            <div class="rate-input-group">
+                <label>Cost per unit (kWh) in PKR</label>
+                <input type="number" id="ratePerUnit" value="35" min="1" step="0.5" />
+                <span class="rate-unit">PKR/kWh</span>
+            </div>
+        </div>
+
+        <!-- Add Appliance Form -->
+        <div class="add-appliance-card">
+            <h3><i class="fas fa-plus-circle"></i> Add Appliance</h3>
+            <div class="appliance-form">
+                <div class="form-group">
+                    <label>Appliance</label>
+                    <select id="applianceName">
+                        <option value="">-- Select or type custom --</option>
+                        <optgroup label="Cooling">
+                            <option value="AC (1 Ton)" data-watt="1200">AC (1 Ton)</option>
+                            <option value="AC (1.5 Ton)" data-watt="1800">AC (1.5 Ton)</option>
+                            <option value="AC (2 Ton)" data-watt="2400">AC (2 Ton)</option>
+                            <option value="Ceiling Fan" data-watt="75">Ceiling Fan</option>
+                            <option value="Pedestal Fan" data-watt="55">Pedestal Fan</option>
+                            <option value="Air Cooler" data-watt="200">Air Cooler</option>
+                        </optgroup>
+                        <optgroup label="Kitchen">
+                            <option value="Refrigerator" data-watt="150">Refrigerator</option>
+                            <option value="Microwave" data-watt="1000">Microwave</option>
+                            <option value="Electric Stove" data-watt="2000">Electric Stove</option>
+                            <option value="Toaster" data-watt="800">Toaster</option>
+                            <option value="Electric Kettle" data-watt="1500">Electric Kettle</option>
+                            <option value="Blender" data-watt="400">Blender</option>
+                        </optgroup>
+                        <optgroup label="Lighting">
+                            <option value="LED Bulb" data-watt="10">LED Bulb</option>
+                            <option value="CFL Bulb" data-watt="25">CFL Bulb</option>
+                            <option value="Tube Light" data-watt="40">Tube Light</option>
+                            <option value="Incandescent Bulb" data-watt="100">Incandescent Bulb</option>
+                        </optgroup>
+                        <optgroup label="Electronics">
+                            <option value="TV (LED 32in)" data-watt="50">TV (LED 32in)</option>
+                            <option value="TV (LED 55in)" data-watt="100">TV (LED 55in)</option>
+                            <option value="Laptop" data-watt="65">Laptop</option>
+                            <option value="Desktop PC" data-watt="300">Desktop PC</option>
+                            <option value="WiFi Router" data-watt="12">WiFi Router</option>
+                            <option value="Phone Charger" data-watt="10">Phone Charger</option>
+                        </optgroup>
+                        <optgroup label="Laundry & Cleaning">
+                            <option value="Washing Machine" data-watt="500">Washing Machine</option>
+                            <option value="Iron" data-watt="1200">Iron</option>
+                            <option value="Vacuum Cleaner" data-watt="800">Vacuum Cleaner</option>
+                        </optgroup>
+                        <optgroup label="Water & Heating">
+                            <option value="Water Motor/Pump" data-watt="750">Water Motor/Pump</option>
+                            <option value="Geyser (Electric)" data-watt="2000">Geyser (Electric)</option>
+                            <option value="Room Heater" data-watt="1500">Room Heater</option>
+                        </optgroup>
+                        <optgroup label="Other">
+                            <option value="UPS/Inverter" data-watt="600">UPS/Inverter</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Custom Name (optional)</label>
+                    <input type="text" id="customName" placeholder="e.g., Bedroom AC" />
+                </div>
+                <div class="form-group">
+                    <label>Power (Watts)</label>
+                    <input type="number" id="applianceWatt" placeholder="e.g., 1200" min="1" />
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" id="applianceQty" value="1" min="1" max="20" />
+                </div>
+                <div class="form-group">
+                    <label>Hours/Day</label>
+                    <input type="number" id="applianceHours" placeholder="e.g., 8" min="0.5" max="24" step="0.5" />
+                </div>
+                <button id="addApplianceBtn" class="add-btn">
+                    <i class="fas fa-plus"></i> Add Appliance
+                </button>
+            </div>
+        </div>
+
+        <!-- Appliance List -->
+        <div class="appliance-list-card" id="applianceListCard" style="display:none;">
+            <div class="list-header">
+                <h3><i class="fas fa-list"></i> Your Appliances</h3>
+                <button id="clearAllBtn" class="clear-btn"><i class="fas fa-trash"></i> Clear All</button>
+            </div>
+            <div class="appliance-table-wrapper">
+                <table class="appliance-table">
+                    <thead>
+                        <tr>
+                            <th>Appliance</th>
+                            <th>Watts</th>
+                            <th>Qty</th>
+                            <th>Hrs/Day</th>
+                            <th>kWh/Month</th>
+                            <th>Cost/Month</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="applianceTableBody"></tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4"><strong>Monthly Total</strong></td>
+                            <td id="totalKwh"><strong>0</strong></td>
+                            <td id="totalCost"><strong>PKR 0</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bill Summary -->
+        <div class="summary-card" id="summaryCard" style="display:none;">
+            <h3><i class="fas fa-chart-pie"></i> Bill Summary</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-label">Total Units</span>
+                    <span class="summary-value" id="summaryUnits">0 kWh</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Daily Cost</span>
+                    <span class="summary-value" id="summaryDaily">PKR 0</span>
+                </div>
+                <div class="summary-item highlight">
+                    <span class="summary-label">Monthly Bill (Est.)</span>
+                    <span class="summary-value" id="summaryMonthly">PKR 0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Yearly Cost</span>
+                    <span class="summary-value" id="summaryYearly">PKR 0</span>
+                </div>
+            </div>
+            
+            <!-- Savings Score -->
+            <div class="savings-score-container">
+                <h4>⚡ Efficiency Score</h4>
+                <div class="score-ring">
+                    <svg viewBox="0 0 120 120">
+                        <circle class="score-bg" cx="60" cy="60" r="52"></circle>
+                        <circle class="score-fill" cx="60" cy="60" r="52" id="scoreCircle"></circle>
+                    </svg>
+                    <div class="score-text" id="scoreText">--</div>
+                </div>
+                <p class="score-label" id="scoreLabel">Add appliances to see your score</p>
+            </div>
+
+            <!-- AI Analysis Button -->
+            <button id="analyzeBtn" class="analyze-btn">
+                <i class="fas fa-robot"></i> Get AI Analysis & Tips
+            </button>
+        </div>
+
+        <!-- AI Response -->
+        <div class="ai-response-card" id="aiResponseCard" style="display:none;">
+            <div class="ai-header">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h3>AI Analysis</h3>
+                    <span class="ai-badge">Powered by Gemini</span>
+                </div>
+            </div>
+            <div class="ai-loading" id="aiLoading" style="display:none;">
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+                <p>Analyzing your electricity usage...</p>
+            </div>
+            <div class="ai-content" id="aiContent"></div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section class="tips-section" id="tips">
+        <h2 class="section-title"><i class="fas fa-lightbulb"></i> Quick Energy Saving Tips</h2>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <div class="tip-icon">❄️</div>
+                <h4>AC Optimization</h4>
+                <p>Set AC to 26°C instead of 18°C. Each degree lower adds ~6% to your cooling bill.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">💡</div>
+                <h4>Switch to LED</h4>
+                <p>LED bulbs use 75% less energy than incandescent bulbs and last 25x longer.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🔌</div>
+                <h4>Phantom Load</h4>
+                <p>Unplug chargers and devices when not in use. Standby power wastes 5-10% of your bill.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">⏰</div>
+                <h4>Off-Peak Hours</h4>
+                <p>Run heavy appliances (iron, washing machine) during off-peak hours to save on tariff.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🌡️</div>
+                <h4>Fridge Efficiency</h4>
+                <p>Keep fridge at 3-5°C and freezer at -18°C. Don't put hot food directly in.</p>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">☀️</div>
+                <h4>Natural Light</h4>
+                <p>Use daylight as much as possible. Open curtains instead of turning on lights.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-content">
+            <h2>About SmartBijli</h2>
+            <p>SmartBijli is an AI-powered electricity bill analyzer built for Pakistani households. It helps you understand where your electricity is going and provides personalized, actionable tips to reduce your monthly bill.</p>
+            <div class="tech-stack">
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">Gemini AI API</span>
+            </div>
+            <p class="copyright">Built with ⚡ for AI Hackathon 2026</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 SmartBijli — AI Electricity Bill Analyzer | Built for AI Hackathon</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
